@@ -7,7 +7,7 @@
 //
 
 #import "PhotoCollectionViewCell.h"
-#define IMAGEVIEW_BORDER_LENGTH 5
+#define IMAGEVIEW_BORDER_LENGTH 2
 
 @implementation PhotoCollectionViewCell
 
@@ -32,6 +32,8 @@
 - (void)setup
 {
     self.imageView = [[UIImageView alloc] initWithFrame:CGRectInset(self.bounds, IMAGEVIEW_BORDER_LENGTH, IMAGEVIEW_BORDER_LENGTH)];
+    self.imageView.contentMode = UIViewContentModeScaleAspectFill;
+    [self.imageView setClipsToBounds:YES]; 
     [self.contentView addSubview:self.imageView];
 }
 
