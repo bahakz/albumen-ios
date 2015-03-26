@@ -8,6 +8,7 @@
 
 #import "OrderFormationViewController.h"
 #import <Parse/Parse.h>
+#import "OrderConfirmationViewController.h"
 
 @interface OrderFormationViewController ()
 @property (strong, nonatomic) IBOutlet UIProgressView *photoUploadProgressView;
@@ -78,7 +79,7 @@
     NSArray *sortedPhotos = [unorderedPhotos sortedArrayUsingDescriptors:@[dateDescriptor]];
     self.photos = [sortedPhotos mutableCopy];
     
-    self.totalNumberLabel.text = [NSString stringWithFormat:@"Из %lu", [self.album.photos count], nil];
+    self.totalNumberLabel.text = [NSString stringWithFormat:@"Из %lu", (unsigned long)[self.album.photos count], nil];
     
     self.numberUploadedLabel.text = @"0";
 
@@ -120,7 +121,10 @@
     
     [self.albumObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
-            [self dismissViewControllerAnimated:YES completion:nil];
+            [self.navigationController popViewControllerAnimated:YES];
+            OrderConfirmationViewController *nextController = [self.storyboard instantiateViewControllerWithIdentifier:@"OrderConfirmationVC"];
+//            [self.navigationController pushViewController:nextController animated:YES];
+            [self.navigationController presentViewController:nextController animated:YES completion:nil];
         }
     }];
     

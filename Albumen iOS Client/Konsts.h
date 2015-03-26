@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+#define DEFAULTS_INTRO_IS_SEEN @"intro_is_seen"
 #define ALBUM_MAX_CAPACITY @100
 
 @interface Konsts : NSObject

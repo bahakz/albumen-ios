@@ -27,6 +27,14 @@
 		8F8DA46D1A920C1200F2C095 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F8DA46C1A920C1200F2C095 /* Images.xcassets */; };
 		8F8DA4701A920C1200F2C095 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F8DA46E1A920C1200F2C095 /* LaunchScreen.xib */; };
 		8F8DA47C1A920C1200F2C095 /* Albumen_iOS_ClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8DA47B1A920C1200F2C095 /* Albumen_iOS_ClientTests.m */; };
+		8F9960311AB96DEA000DA5A3 /* OrderConfirmationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F9960301AB96DEA000DA5A3 /* OrderConfirmationViewController.m */; };
+		8F9960331AB9943B000DA5A3 /* bg_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F9960321AB9943B000DA5A3 /* bg_green@2x.png */; };
+		8F9960371AB99888000DA5A3 /* IntroPageContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F9960361AB99888000DA5A3 /* IntroPageContentViewController.m */; };
+		8F99603A1AB9990F000DA5A3 /* EntranceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F9960391AB9990F000DA5A3 /* EntranceViewController.m */; };
+		8F99603F1AB99F3A000DA5A3 /* intro_page3.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F99603B1AB99F3A000DA5A3 /* intro_page3.png */; };
+		8F9960401AB99F3A000DA5A3 /* intro_page4.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F99603C1AB99F3A000DA5A3 /* intro_page4.png */; };
+		8F9960411AB99F3A000DA5A3 /* intro_page2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F99603D1AB99F3A000DA5A3 /* intro_page2.png */; };
+		8F9960421AB99F3A000DA5A3 /* intro_page1.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F99603E1AB99F3A000DA5A3 /* intro_page1.png */; };
 		8FA06BDD1A97873B004AB0A8 /* ELCAlbumPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FA06BC71A97873B004AB0A8 /* ELCAlbumPickerController.m */; };
 		8FA06BDE1A97873B004AB0A8 /* ELCAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FA06BC91A97873B004AB0A8 /* ELCAsset.m */; };
 		8FA06BDF1A97873B004AB0A8 /* ELCAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FA06BCB1A97873B004AB0A8 /* ELCAssetCell.m */; };
@@ -95,6 +103,17 @@
 		8F8DA4751A920C1200F2C095 /* Albumen iOS ClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Albumen iOS ClientTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F8DA47A1A920C1200F2C095 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8F8DA47B1A920C1200F2C095 /* Albumen_iOS_ClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Albumen_iOS_ClientTests.m; sourceTree = "<group>"; };
+		8F99602F1AB96DEA000DA5A3 /* OrderConfirmationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderConfirmationViewController.h; sourceTree = "<group>"; };
+		8F9960301AB96DEA000DA5A3 /* OrderConfirmationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderConfirmationViewController.m; sourceTree = "<group>"; };
+		8F9960321AB9943B000DA5A3 /* bg_green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg_green@2x.png"; sourceTree = "<group>"; };
+		8F9960351AB99888000DA5A3 /* IntroPageContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroPageContentViewController.h; sourceTree = "<group>"; };
+		8F9960361AB99888000DA5A3 /* IntroPageContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroPageContentViewController.m; sourceTree = "<group>"; };
+		8F9960381AB9990F000DA5A3 /* EntranceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EntranceViewController.h; sourceTree = "<group>"; };
+		8F9960391AB9990F000DA5A3 /* EntranceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EntranceViewController.m; sourceTree = "<group>"; };
+		8F99603B1AB99F3A000DA5A3 /* intro_page3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = intro_page3.png; sourceTree = "<group>"; };
+		8F99603C1AB99F3A000DA5A3 /* intro_page4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = intro_page4.png; sourceTree = "<group>"; };
+		8F99603D1AB99F3A000DA5A3 /* intro_page2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = intro_page2.png; sourceTree = "<group>"; };
+		8F99603E1AB99F3A000DA5A3 /* intro_page1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = intro_page1.png; sourceTree = "<group>"; };
 		8FA06BC61A97873B004AB0A8 /* ELCAlbumPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAlbumPickerController.h; sourceTree = "<group>"; };
 		8FA06BC71A97873B004AB0A8 /* ELCAlbumPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELCAlbumPickerController.m; sourceTree = "<group>"; };
 		8FA06BC81A97873B004AB0A8 /* ELCAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAsset.h; sourceTree = "<group>"; };
@@ -232,9 +251,11 @@
 			children = (
 				8F8DA4601A920C1200F2C095 /* AppDelegate.h */,
 				8F8DA4611A920C1200F2C095 /* AppDelegate.m */,
+				8F9960341AB9986D000DA5A3 /* Intro  */,
 				8FA06BF81A979017004AB0A8 /* Consts */,
 				8FAAAEF71A921E3E00C70BBC /* Album Controller */,
 				8FAAAEF61A921E2B00C70BBC /* Album Detail */,
+				8F99602E1AB96DCF000DA5A3 /* Order Confirmation */,
 				8F5D0D4D1A94827000FE56F9 /* Order Formation */,
 				8F8DA4691A920C1200F2C095 /* Main.storyboard */,
 				8F8DA46C1A920C1200F2C095 /* Images.xcassets */,
@@ -273,6 +294,37 @@
 				8F8DA47A1A920C1200F2C095 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8F99602E1AB96DCF000DA5A3 /* Order Confirmation */ = {
+			isa = PBXGroup;
+			children = (
+				8F99602F1AB96DEA000DA5A3 /* OrderConfirmationViewController.h */,
+				8F9960301AB96DEA000DA5A3 /* OrderConfirmationViewController.m */,
+			);
+			name = "Order Confirmation";
+			sourceTree = "<group>";
+		};
+		8F9960341AB9986D000DA5A3 /* Intro  */ = {
+			isa = PBXGroup;
+			children = (
+				8F9960351AB99888000DA5A3 /* IntroPageContentViewController.h */,
+				8F9960361AB99888000DA5A3 /* IntroPageContentViewController.m */,
+				8F9960381AB9990F000DA5A3 /* EntranceViewController.h */,
+				8F9960391AB9990F000DA5A3 /* EntranceViewController.m */,
+			);
+			name = "Intro ";
+			sourceTree = "<group>";
+		};
+		8F9960431AB99F3E000DA5A3 /* intro pages */ = {
+			isa = PBXGroup;
+			children = (
+				8F99603B1AB99F3A000DA5A3 /* intro_page3.png */,
+				8F99603C1AB99F3A000DA5A3 /* intro_page4.png */,
+				8F99603D1AB99F3A000DA5A3 /* intro_page2.png */,
+				8F99603E1AB99F3A000DA5A3 /* intro_page1.png */,
+			);
+			name = "intro pages";
 			sourceTree = "<group>";
 		};
 		8FA06BC51A97873B004AB0A8 /* ELCImagePicker */ = {
@@ -368,6 +420,8 @@
 		8FE29B2E1AA5B83E006FE22D /* images */ = {
 			isa = PBXGroup;
 			children = (
+				8F9960431AB99F3E000DA5A3 /* intro pages */,
+				8F9960321AB9943B000DA5A3 /* bg_green@2x.png */,
 				8FE29B3C1AA6048D006FE22D /* no photo.png */,
 				8FE29B311AA5BA77006FE22D /* Albumen_launch_font.png */,
 				8FE29B2F1AA5B97A006FE22D /* bg_green.png */,
@@ -460,12 +514,17 @@
 				8FA06BE71A97873B004AB0A8 /* Overlay.png in Resources */,
 				8F8DA46B1A920C1200F2C095 /* Main.storyboard in Resources */,
 				8F8DA4701A920C1200F2C095 /* LaunchScreen.xib in Resources */,
+				8F99603F1AB99F3A000DA5A3 /* intro_page3.png in Resources */,
 				8FE29B301AA5B97A006FE22D /* bg_green.png in Resources */,
+				8F9960401AB99F3A000DA5A3 /* intro_page4.png in Resources */,
 				8FE29B321AA5BA77006FE22D /* Albumen_launch_font.png in Resources */,
 				8FE29B361AA5C7A7006FE22D /* AlbumTableCell.xib in Resources */,
+				8F9960331AB9943B000DA5A3 /* bg_green@2x.png in Resources */,
 				8FE29B3D1AA6048D006FE22D /* no photo.png in Resources */,
+				8F9960411AB99F3A000DA5A3 /* intro_page2.png in Resources */,
 				8FA06BE81A97873B004AB0A8 /* Overlay@2x.png in Resources */,
 				8F8DA46D1A920C1200F2C095 /* Images.xcassets in Resources */,
+				8F9960421AB99F3A000DA5A3 /* intro_page1.png in Resources */,
 				8FA06BE51A97873B004AB0A8 /* ELCAssetPicker.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -492,10 +551,13 @@
 				8FA06BF11A978FCC004AB0A8 /* Photo.m in Sources */,
 				8FA06BE11A97873B004AB0A8 /* ELCConsole.m in Sources */,
 				8FA06BE31A97873B004AB0A8 /* ELCOverlayImageView.m in Sources */,
+				8F9960311AB96DEA000DA5A3 /* OrderConfirmationViewController.m in Sources */,
 				8FAAAEF51A921E2100C70BBC /* PhotoCollectionViewCell.m in Sources */,
 				8F5D0D4C1A94826400FE56F9 /* OrderFormationViewController.m in Sources */,
 				8F8DA4651A920C1200F2C095 /* Albumen_iOS_Client.xcdatamodeld in Sources */,
+				8F9960371AB99888000DA5A3 /* IntroPageContentViewController.m in Sources */,
 				8FA06BFB1A979ABE004AB0A8 /* SinglePhotoViewController.m in Sources */,
+				8F99603A1AB9990F000DA5A3 /* EntranceViewController.m in Sources */,
 				8FA06BDE1A97873B004AB0A8 /* ELCAsset.m in Sources */,
 				8FA06BDF1A97873B004AB0A8 /* ELCAssetCell.m in Sources */,
 				8F8DA4621A920C1200F2C095 /* AppDelegate.m in Sources */,
