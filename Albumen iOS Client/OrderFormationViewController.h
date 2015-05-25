@@ -10,8 +10,15 @@
 #import "Album.h"
 #import "Photo.h" 
 
+
+@protocol OrderFormationViewControllerDelegate <NSObject>
+-(void) orderFormationDidCancel;
+-(void) orderFormationDidPlace;
+@end
+
 @interface OrderFormationViewController : UIViewController
 
+@property (weak) id <OrderFormationViewControllerDelegate> delegate;
 @property (strong, nonatomic) Album *album;
 
 @end

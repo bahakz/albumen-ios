@@ -105,7 +105,7 @@
         NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES];
         NSArray *sortedPhotos = [unorderedPhotos sortedArrayUsingDescriptors:@[dateDescriptor]];
         Photo *photo = sortedPhotos[0];
-        cell.coverImageView.image = photo.image;
+//        cell.coverImageView.image = photo.image;
     } else {
         cell.coverImageView.image = [UIImage imageNamed:@"no photo.png"];
     }
@@ -124,6 +124,30 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self performSegueWithIdentifier:@"toAlbumDetailVC" sender:indexPath];
+}
+
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        Album *album = [self.albums objectAtIndex:indexPath.row];
+        
+        NSManagedObjectContext *context = [album managedObjectContext];
+        [context deleteObject:album];
+        
+        NSError *error = nil;
+        if (![context save:&error]) {
+            NSLog(@"We have error. failed to delete Object");
+        }
+        
+        [self.albums removeObjectAtIndex:indexPath.row];
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade]; 
+    }
 }
 
 - (IBAction)addAlbumBarButtonPressed:(UIBarButtonItem *)sender {

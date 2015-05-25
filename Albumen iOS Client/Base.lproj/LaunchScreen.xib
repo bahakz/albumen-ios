@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -10,15 +10,6 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="  Copyright (c) 2015 intellection. All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="8ie-xW-0ye">
-                    <rect key="frame" x="20" y="439" width="441" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="bg_green.png" translatesAutoresizingMaskIntoConstraints="NO" id="Mpr-cb-TwB">
-                    <rect key="frame" x="0.0" y="0.0" width="480" height="486"/>
-                </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Albumen_launch_font.png" translatesAutoresizingMaskIntoConstraints="NO" id="qbG-J9-VqO">
                     <rect key="frame" x="125" y="100" width="240" height="128"/>
                     <constraints>
@@ -27,14 +18,10 @@
                     </constraints>
                 </imageView>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.20000000000000001" green="0.58823529411764708" blue="0.87450980392156863" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="qbG-J9-VqO" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="100" id="3kk-im-XFc"/>
-                <constraint firstItem="Mpr-cb-TwB" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="TKH-uf-b8R"/>
                 <constraint firstAttribute="centerX" secondItem="qbG-J9-VqO" secondAttribute="centerX" id="VVa-7H-v4F"/>
-                <constraint firstItem="Mpr-cb-TwB" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="XGJ-7t-jwF"/>
-                <constraint firstAttribute="bottom" secondItem="Mpr-cb-TwB" secondAttribute="bottom" id="ljI-ur-Dfu"/>
-                <constraint firstAttribute="trailing" secondItem="Mpr-cb-TwB" secondAttribute="trailing" id="tJz-wp-0Y9"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -43,6 +30,5 @@
     </objects>
     <resources>
         <image name="Albumen_launch_font.png" width="1314" height="444"/>
-        <image name="bg_green.png" width="640" height="1095"/>
     </resources>
 </document>

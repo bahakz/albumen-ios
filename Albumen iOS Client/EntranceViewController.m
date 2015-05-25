@@ -23,9 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
-    
-    self.pageTitles = @[@"Создавайте Альбомы", @"Добавляйте фото", @"Вводите данные для доставки", @"Мы доставим альбом к Вам домой"];
+    self.pageTitles = @[@"Создайте Альбом для особенного случая или периода вашей жизни", @"Добавляйте до 50-ти фотографии в альбом", @"Нажмите кнопку заказать и пока фотографии загружаются, вводите данные для доставки", @"В течении недели, мы доставим альбом к Вам домой"];
     self.pageImages = @[@"intro_page1.png", @"intro_page2.png", @"intro_page3.png", @"intro_page4.png"];
     
     self.pageViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"introPageVC"];
@@ -35,7 +33,7 @@
     NSArray *viewControllers = @[startingViewController];
     [self.pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
     
-    self.pageViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 60);
+    self.pageViewController.view.frame = CGRectMake(0, 30, self.view.frame.size.width, self.view.frame.size.height - 60 - 30);
     
     [self addChildViewController:_pageViewController];
     [self.view addSubview:_pageViewController.view];

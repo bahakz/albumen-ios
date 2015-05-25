@@ -8,7 +8,6 @@
 
 #import "OrderFormationViewController.h"
 #import <Parse/Parse.h>
-#import "OrderConfirmationViewController.h"
 
 @interface OrderFormationViewController ()
 @property (strong, nonatomic) IBOutlet UIProgressView *photoUploadProgressView;
@@ -23,6 +22,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *totalNumberLabel;
 @property (strong, nonatomic) IBOutlet UIImageView *currentPhotoImageView;
 
+@property (strong, nonatomic) IBOutlet UILabel *priceLabel;
+
+@property (nonatomic) BOOL isCancelled;
+
 @end
 
 @implementation OrderFormationViewController
@@ -34,21 +37,45 @@
     
     self.albumObject = [PFObject objectWithClassName:@"Album"];
     
-    self.orderButton.hidden = YES;
+    self.orderButton.enabled = NO;
+    self.orderButton.alpha = 0.5;
+    
+    self.isCancelled = false;
+    [self getPrice];
     [self startUpload];
+}
+
+-(void) getPrice
+{
+    PFQuery *query = [PFQuery queryWithClassName:@"Const"];
+    query.limit = 1;
+    [query whereKey:@"key" equalTo:@"price"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error && ([objects count] > 0)) {
+            PFObject *object = objects[0];
+            NSLog(@"price is %@", [object objectForKey:@"intValue"]);
+            self.priceLabel.text = [NSString stringWithFormat:@"%@ тг", [object objectForKey:@"intValue"]];
+        }
+    }];
 }
 
 -(void) uploadIndivPhotoAtIndex: (int) index
 {
     Photo *photo = self.photos[index];
-    self.currentPhotoImageView.image = photo.image; 
+    self.currentPhotoImageView.image = [UIImage imageWithData:photo.imageData];
     
-    NSData *imageData = UIImagePNGRepresentation(photo.image);
-    PFFile *imageFile = [PFFile fileWithName:@"image.png" data:imageData];
+    NSData *imageData = photo.imageData;
+    PFFile *imageFile = [PFFile fileWithName:@"image.jpeg" data:imageData];
     
     self.singlePhotoUploadProgressView.progress = 0.0;
     
     [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        
+        if (self.isCancelled) {
+            // stop uploading
+            NSLog(@"Cancelled order formation after uploading %d photos", index + 1);
+            return;
+        }
         
         if (succeeded) {
             double progress = (((index+1) * 1.0) / [self.photos count]);
@@ -59,7 +86,9 @@
             if ((index+1) < [self.photos count]) {
                 [self uploadIndivPhotoAtIndex:index+1];
             } else {
-                self.orderButton.hidden = NO; 
+                self.orderButton.enabled = YES;
+                self.orderButton.alpha = 1.0;
+
             }
         } else {
             NSLog(@"Some errors");
@@ -67,8 +96,6 @@
     }progressBlock:^(int percentDone) {
         self.singlePhotoUploadProgressView.progress = percentDone * 1.0 / 100.0;
     }];
-
-
 }
 
 -(void) startUpload
@@ -79,7 +106,7 @@
     NSArray *sortedPhotos = [unorderedPhotos sortedArrayUsingDescriptors:@[dateDescriptor]];
     self.photos = [sortedPhotos mutableCopy];
     
-    self.totalNumberLabel.text = [NSString stringWithFormat:@"Из %lu", (unsigned long)[self.album.photos count], nil];
+    self.totalNumberLabel.text = [NSString stringWithFormat:@"из %lu", (unsigned long)[self.album.photos count], nil];
     
     self.numberUploadedLabel.text = @"0";
 
@@ -88,7 +115,7 @@
         
         self.currentPhotoImageView.contentMode = UIViewContentModeScaleAspectFit;
         self.currentPhotoImageView.clipsToBounds = YES;
-        self.currentPhotoImageView.image = photo.image;
+        self.currentPhotoImageView.image = [UIImage imageWithData:photo.imageData];
         
         [self uploadIndivPhotoAtIndex:0];
     }
@@ -100,6 +127,10 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)cancelButtonPressed:(UIBarButtonItem *)sender {
+    self.isCancelled = true;
+    [self.delegate orderFormationDidCancel];
+}
 
 
 - (IBAction)orderButtonPressed:(UIButton *)sender {
@@ -121,10 +152,7 @@
     
     [self.albumObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
-            [self.navigationController popViewControllerAnimated:YES];
-            OrderConfirmationViewController *nextController = [self.storyboard instantiateViewControllerWithIdentifier:@"OrderConfirmationVC"];
-//            [self.navigationController pushViewController:nextController animated:YES];
-            [self.navigationController presentViewController:nextController animated:YES completion:nil];
+            [self.delegate orderFormationDidPlace];
         }
     }];
     

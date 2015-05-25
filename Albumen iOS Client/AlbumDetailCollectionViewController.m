@@ -12,10 +12,12 @@
 #import "OrderFormationViewController.h"
 #import "SinglePhotoViewController.h"
 #import "ELCImagePickerController.h"
+#import "OrderConfirmationViewController.h"
 
-@interface AlbumDetailCollectionViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate, ELCImagePickerControllerDelegate>
+@interface AlbumDetailCollectionViewController () <ELCImagePickerControllerDelegate, OrderFormationViewControllerDelegate>
 @property (strong, nonatomic) IBOutlet UINavigationItem *topNavigationItem;
 @property (strong, nonatomic) IBOutlet UILabel *leftPhotosLabel;
+@property (strong, nonatomic) IBOutlet UIButton *orderButton;
 
 @end
 
@@ -37,7 +39,7 @@ static NSString * const reuseIdentifier = @"Cell";
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
     
-    self.leftPhotosLabel.text = [NSString stringWithFormat:@"Осталось фотографии: %lu", [self.album.capacity intValue] - [self.photos count]];
+    self.leftPhotosLabel.text = [NSString stringWithFormat:@"Осталось фотографии: %u", [self.album.capacity intValue] - [self.photos count]];
     
     // Register cell classes
     [self.collectionView registerClass:[PhotoCollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
@@ -55,6 +57,12 @@ static NSString * const reuseIdentifier = @"Cell";
     self.photos = [sortedPhotos mutableCopy];
     
     [self.collectionView reloadData];
+    
+    if ([self.photos count] == 0) {
+        self.orderButton.enabled = NO;
+    } else {
+        self.orderButton.enabled = YES; 
+    }
    
 }
 
@@ -70,6 +78,7 @@ static NSString * const reuseIdentifier = @"Cell";
      if ([segue.destinationViewController isKindOfClass:[OrderFormationViewController class]]) {
          OrderFormationViewController *nextController = segue.destinationViewController;
          nextController.album = self.album;
+         nextController.delegate = self;
      }
      
      if ([segue.destinationViewController isKindOfClass:[SinglePhotoViewController class]]) {
@@ -100,28 +109,21 @@ static NSString * const reuseIdentifier = @"Cell";
     
     // Configure the cell
     Photo *photo = self.photos[indexPath.row];
-    cell.imageView.image = photo.image;
+//    cell.imageView.image = [UIImage imageWithData: photo.imageData];
     
     return cell;
 }
 
--(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
-    UIImage *image = info[UIImagePickerControllerEditedImage];
-    if (!image) image = info[UIImagePickerControllerOriginalImage];
-    [self.photos addObject:[self photoFromImage:image]];
-    [self.collectionView reloadData];
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (Photo *)photoFromImage:(UIImage *)image
+- (Photo *)photoFromImageData:(NSData *)imageData
 {
     Photo *photo = [NSEntityDescription insertNewObjectForEntityForName:@"Photo" inManagedObjectContext:[self.album managedObjectContext]];
-    photo.image = image;
+    photo.imageData = imageData;
     photo.date = [NSDate date];
     photo.albumBook = self.album;
     NSError *error = nil;
     if (![[photo managedObjectContext] save:&error]) {
+        NSLog(@"something bad happend %@", error);
+        return nil;
     }
     
     return photo;
@@ -132,15 +134,33 @@ static NSString * const reuseIdentifier = @"Cell";
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark - order formation methods
 
-#pragma mark ELCImagePickerController delegate methods 
+-(void)orderFormationDidCancel
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)orderFormationDidPlace
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    OrderConfirmationViewController *nextController = [self.storyboard instantiateViewControllerWithIdentifier:@"OrderConfirmationVC"];
+    [self presentViewController:nextController animated:YES completion:nil];
+}
+
+
+#pragma mark ELCImagePickerController delegate methods
 -(void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info
 {
     for (int i=0; i < [info count]; i++) {
         NSDictionary *dict = info[i];
-        UIImage *image = dict[UIImagePickerControllerEditedImage];
-        if (!image) image = dict[UIImagePickerControllerOriginalImage];
-        [self.photos addObject:[self photoFromImage:image]];
+        
+        UIImage *image = dict[UIImagePickerControllerOriginalImage];
+        if (!image) image = dict[UIImagePickerControllerEditedImage];
+        if (image) {
+            NSData *imageData = UIImageJPEGRepresentation(image, 100);
+            [self.photos addObject:[self photoFromImageData:imageData]]; 
+        }
     }
     
     [self.collectionView reloadData];

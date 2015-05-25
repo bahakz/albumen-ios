@@ -18,7 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.imageView.image = self.photo.image;
+//    self.imageView.image = self.photo.image;
     
     // Do any additional setup after loading the view.
 }
