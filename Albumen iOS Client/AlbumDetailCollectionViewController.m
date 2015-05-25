@@ -109,7 +109,7 @@ static NSString * const reuseIdentifier = @"Cell";
     
     // Configure the cell
     Photo *photo = self.photos[indexPath.row];
-//    cell.imageView.image = [UIImage imageWithData: photo.imageData];
+    cell.imageView.image = [UIImage imageWithData: photo.imageData];
     
     return cell;
 }
