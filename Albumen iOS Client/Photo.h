@@ -14,7 +14,7 @@
 @interface Photo : NSManagedObject
 
 @property (nonatomic, retain) NSDate * date;
-@property (nonatomic, retain) NSData * imageData;
+@property (nonatomic, retain) NSString * imageURL;
 @property (nonatomic, retain) Album *albumBook;
 
 @end

@@ -13,7 +13,7 @@
 @implementation Photo
 
 @dynamic date;
-@dynamic imageData;
+@dynamic imageURL;
 @dynamic albumBook;
 
 @end

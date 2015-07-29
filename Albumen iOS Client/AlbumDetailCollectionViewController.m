@@ -13,6 +13,9 @@
 #import "SinglePhotoViewController.h"
 #import "ELCImagePickerController.h"
 #import "OrderConfirmationViewController.h"
+#import <AssetsLibrary/AssetsLibrary.h>
+#import "PhotoController.h"
+
 
 @interface AlbumDetailCollectionViewController () <ELCImagePickerControllerDelegate, OrderFormationViewControllerDelegate>
 @property (strong, nonatomic) IBOutlet UINavigationItem *topNavigationItem;
@@ -109,15 +112,17 @@ static NSString * const reuseIdentifier = @"Cell";
     
     // Configure the cell
     Photo *photo = self.photos[indexPath.row];
-    cell.imageView.image = [UIImage imageWithData: photo.imageData];
+    [PhotoController getPhoto:photo withCompletedBlock:^(UIImage *image) {
+        cell.imageView.image = image;
+    }];
     
     return cell;
 }
 
-- (Photo *)photoFromImageData:(NSData *)imageData
+- (Photo *)photoFromImageURL:(NSURL *)imageURL
 {
     Photo *photo = [NSEntityDescription insertNewObjectForEntityForName:@"Photo" inManagedObjectContext:[self.album managedObjectContext]];
-    photo.imageData = imageData;
+    photo.imageURL = [imageURL absoluteString];
     photo.date = [NSDate date];
     photo.albumBook = self.album;
     NSError *error = nil;
@@ -155,16 +160,12 @@ static NSString * const reuseIdentifier = @"Cell";
     for (int i=0; i < [info count]; i++) {
         NSDictionary *dict = info[i];
         
-        UIImage *image = dict[UIImagePickerControllerOriginalImage];
-        if (!image) image = dict[UIImagePickerControllerEditedImage];
-        if (image) {
-            NSData *imageData = UIImageJPEGRepresentation(image, 100);
-            [self.photos addObject:[self photoFromImageData:imageData]]; 
-        }
+        NSURL *imageURL = dict[UIImagePickerControllerReferenceURL];
+        [self.photos addObject:[self photoFromImageURL:imageURL]];
     }
     
     [self.collectionView reloadData];
-    self.leftPhotosLabel.text = [NSString stringWithFormat:@"Осталось фотографии: %lu", [self.album.capacity intValue] - [self.photos count]];
+    self.leftPhotosLabel.text = [NSString stringWithFormat:@"Осталось фотографии: %lu", (long)[self.album.capacity intValue] - [self.photos count]];
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -181,7 +182,7 @@ static NSString * const reuseIdentifier = @"Cell";
     ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] initImagePicker];
     elcPicker.maximumImagesCount = [self.album.capacity intValue] - [self.photos count]; //Set the maximum number of images to select, defaults to 4
     elcPicker.returnsOriginalImage = YES; //Only return the fullScreenImage, not the fullResolutionImage
-    elcPicker.returnsImage = YES; //Return UIimage if YES. If NO, only return asset location information
+    elcPicker.returnsImage = NO; //Return UIimage if YES. If NO, only return asset location information
     elcPicker.onOrder = YES; //For multiple image selection, display and return selected order of images
     elcPicker.imagePickerDelegate = self;
     

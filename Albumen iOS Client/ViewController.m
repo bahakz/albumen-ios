@@ -6,12 +6,14 @@
 //  Copyright (c) 2015 intellection. All rights reserved.
 //
 
+#import <Parse/Parse.h>
 #import "ViewController.h"
 #import "Album.h"
 #import "Photo.h"
 #import "AlbumDetailCollectionViewController.h"
 #import "Konsts.h"
 #import "AlbumTableViewCell.h"
+#import "PhotoController.h"
 
 @interface ViewController () <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
@@ -29,6 +31,38 @@
     self.tableView.delegate = self;
     
     self.albums = [[NSMutableArray alloc] init];
+    [self updateDefaults];
+}
+
+-(void) updateDefaults
+{
+    PFQuery *query = [PFQuery queryWithClassName:@"Const"];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        
+        if (!error) {
+            
+            for (PFObject *object in objects) {
+                NSString *key = [object objectForKey:@"key"];
+                if ([key isEqualToString:@"numberOfPhotos"]) {
+                    int value = [[object objectForKey:@"intValue"] intValue];
+                    [[NSUserDefaults standardUserDefaults] setObject:@(value) forKey:@"numberOfPhotos"];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
+                }
+                
+                if ([key isEqualToString:@"price"]) {
+                    int value = [[object objectForKey:@"intValue"] intValue];
+                    [[NSUserDefaults standardUserDefaults] setObject:@(value) forKey:@"price"];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
+                }
+                
+            }
+            
+        } else {
+            NSLog(@"some error %@", error);
+        }
+    }];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -105,7 +139,9 @@
         NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES];
         NSArray *sortedPhotos = [unorderedPhotos sortedArrayUsingDescriptors:@[dateDescriptor]];
         Photo *photo = sortedPhotos[0];
-//        cell.coverImageView.image = photo.image;
+        [PhotoController getPhoto:photo withCompletedBlock:^(UIImage *image) {
+            cell.coverImageView.image = image;
+        }];
     } else {
         cell.coverImageView.image = [UIImage imageNamed:@"no photo.png"];
     }
@@ -175,6 +211,12 @@
     album.title = name;
     album.date = [NSDate date];
     album.capacity = ALBUM_MAX_CAPACITY;
+    
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"numberOfPhotos"]) {
+        album.capacity = [[NSUserDefaults standardUserDefaults] objectForKey:@"numberOfPhotos"]; 
+    }
+    
+    
     NSError *error = nil;
     
     if (![context save:&error]) {

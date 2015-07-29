@@ -32,7 +32,7 @@
 - (void)setup
 {
     self.imageView = [[UIImageView alloc] initWithFrame:CGRectInset(self.bounds, IMAGEVIEW_BORDER_LENGTH, IMAGEVIEW_BORDER_LENGTH)];
-    self.imageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.imageView setClipsToBounds:YES]; 
     [self.contentView addSubview:self.imageView];
 }

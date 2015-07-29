@@ -11,6 +11,9 @@
 
 @interface OrderConfirmationViewController ()
 @property (strong, nonatomic) IBOutlet UIButton *okButton;
+@property (strong, nonatomic) IBOutlet UILabel *infoLabel;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *widthInfoLabelConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *heightInfoLabelConstraint;
 @end
 
 @implementation OrderConfirmationViewController
@@ -22,6 +25,11 @@
     [[self.okButton layer] setBorderColor:[UIColor whiteColor].CGColor];
     [[self.okButton layer] setCornerRadius:8.0f];
     
+    if ([UIScreen mainScreen].bounds.size.height == 480) {
+        NSLog(@"iPhone 4");
+        self.infoLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
+        self.heightInfoLabelConstraint.constant = 150;
+    }
     // Do any additional setup after loading the view.
 }
 

@@ -7,6 +7,7 @@
 //
 
 #import "SinglePhotoViewController.h"
+#import "PhotoController.h" 
 
 @interface SinglePhotoViewController ()
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
@@ -18,7 +19,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    self.imageView.image = self.photo.image;
+    [PhotoController getPhoto:self.photo withCompletedBlock:^(UIImage *image) {
+        self.imageView.image = image;
+    }];
     
     // Do any additional setup after loading the view.
 }

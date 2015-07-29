@@ -8,6 +8,7 @@
 
 #import "OrderFormationViewController.h"
 #import <Parse/Parse.h>
+#import "PhotoController.h"
 
 @interface OrderFormationViewController ()
 @property (strong, nonatomic) IBOutlet UIProgressView *photoUploadProgressView;
@@ -23,6 +24,7 @@
 @property (strong, nonatomic) IBOutlet UIImageView *currentPhotoImageView;
 
 @property (strong, nonatomic) IBOutlet UILabel *priceLabel;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *heightImageViewConstraint;
 
 @property (nonatomic) BOOL isCancelled;
 
@@ -41,8 +43,39 @@
     self.orderButton.alpha = 0.5;
     
     self.isCancelled = false;
+    
+    if ([UIScreen mainScreen].bounds.size.height == 480) {
+        NSLog(@"iPhone 4");
+        self.heightImageViewConstraint.constant = 0;
+        self.singlePhotoUploadProgressView.hidden = YES;
+    }
+    
     [self getPrice];
     [self startUpload];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
+                                   initWithTarget:self
+                                   action:@selector(dismissKeyboard)];
+    
+    [self.view addGestureRecognizer:tap];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+-(void)dismissKeyboard {
+    [self.phoneTextField resignFirstResponder];
+    [self.addressTextField resignFirstResponder];
+    [self.nameTextField resignFirstResponder];
 }
 
 -(void) getPrice
@@ -62,39 +95,38 @@
 -(void) uploadIndivPhotoAtIndex: (int) index
 {
     Photo *photo = self.photos[index];
-    self.currentPhotoImageView.image = [UIImage imageWithData:photo.imageData];
     
-    NSData *imageData = photo.imageData;
-    PFFile *imageFile = [PFFile fileWithName:@"image.jpeg" data:imageData];
-    
-    self.singlePhotoUploadProgressView.progress = 0.0;
-    
-    [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    [PhotoController getPhoto:photo withCompletedBlock:^(UIImage *image) {
+            self.currentPhotoImageView.image = image;
+            NSData *imageData = UIImageJPEGRepresentation(image, 100);
+            PFFile *imageFile = [PFFile fileWithName:@"image.jpeg" data:imageData];
+            self.singlePhotoUploadProgressView.progress = 0.0;
         
-        if (self.isCancelled) {
-            // stop uploading
-            NSLog(@"Cancelled order formation after uploading %d photos", index + 1);
-            return;
-        }
-        
-        if (succeeded) {
-            double progress = (((index+1) * 1.0) / [self.photos count]);
-            self.photoUploadProgressView.progress = progress;
-            self.numberUploadedLabel.text = [NSString stringWithFormat:@"%d", index+1, nil];
-            [self.albumObject addObject:imageFile forKey:@"photos"];
-            
-            if ((index+1) < [self.photos count]) {
-                [self uploadIndivPhotoAtIndex:index+1];
-            } else {
-                self.orderButton.enabled = YES;
-                self.orderButton.alpha = 1.0;
+            [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (self.isCancelled) {
+                    // stop uploading
+                    NSLog(@"Cancelled order formation after uploading %d photos", index + 1);
+                    return;
+                }
+                if (succeeded) {
+                    double progress = (((index+1) * 1.0) / [self.photos count]);
+                    self.photoUploadProgressView.progress = progress;
+                    self.numberUploadedLabel.text = [NSString stringWithFormat:@"%d", index+1, nil];
+                    [self.albumObject addObject:imageFile forKey:@"photos"];
+                
+                    if ((index+1) < [self.photos count]) {
+                        [self uploadIndivPhotoAtIndex:index+1];
+                    } else {
+                        self.orderButton.enabled = YES;
+                        self.orderButton.alpha = 1.0;
+                    }
+                } else {
+                    NSLog(@"Some errors");
+                }
+            }progressBlock:^(int percentDone) {
+                self.singlePhotoUploadProgressView.progress = percentDone * 1.0 / 100.0;
+            }];
 
-            }
-        } else {
-            NSLog(@"Some errors");
-        }
-    }progressBlock:^(int percentDone) {
-        self.singlePhotoUploadProgressView.progress = percentDone * 1.0 / 100.0;
     }];
 }
 
@@ -111,21 +143,13 @@
     self.numberUploadedLabel.text = @"0";
 
     if ([self.photos count] > 0 ) {
-        Photo *photo = self.photos[0];
-        
         self.currentPhotoImageView.contentMode = UIViewContentModeScaleAspectFit;
         self.currentPhotoImageView.clipsToBounds = YES;
-        self.currentPhotoImageView.image = [UIImage imageWithData:photo.imageData];
-        
         [self uploadIndivPhotoAtIndex:0];
     }
 }
 
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 - (IBAction)cancelButtonPressed:(UIBarButtonItem *)sender {
     self.isCancelled = true;
